@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.p1nero.dpr.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "dodge_parry_reward.refmap.json",
+  "mixins": [
+    "PlayerPatchAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
