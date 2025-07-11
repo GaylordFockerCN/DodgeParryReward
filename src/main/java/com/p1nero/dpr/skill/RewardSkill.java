@@ -1,8 +1,11 @@
 package com.p1nero.dpr.skill;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
@@ -41,6 +44,17 @@ public abstract class RewardSkill extends Skill {
         EVENT_UUID = builder.uuid;
     }
 
+    @Override
+    public void setParams(CompoundTag parameters) {
+        super.setParams(parameters);
+        if(parameters.contains("effect_duration")) {
+            effectDuration = parameters.getInt("effect_duration");
+        }
+        if(parameters.contains("effect_amplifier")) {
+            effectDuration = parameters.getInt("effect_amplifier");
+        }
+    }
+
     public void apply(SkillContainer container) {
         if(mobEffectSupplier != null && !container.getExecutor().isLogicalClient()) {
             container.getExecutor().getOriginal().addEffect(new MobEffectInstance(mobEffectSupplier.get(), effectDuration, effectAmplifier));
@@ -53,6 +67,7 @@ public abstract class RewardSkill extends Skill {
     /**
      * 有效果直接读效果贴图
      */
+    @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getSkillTexture() {
         if(mobEffectSupplier != null) {
@@ -68,6 +83,7 @@ public abstract class RewardSkill extends Skill {
         return super.getSkillTexture();
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public List<Object> getTooltipArgsOfScreen(List<Object> list) {
         list.add(effectAmplifier);
