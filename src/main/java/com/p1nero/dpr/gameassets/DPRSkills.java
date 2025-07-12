@@ -7,6 +7,7 @@ import com.p1nero.dpr.skill.ParryAndDodgeRewardSkill;
 import com.p1nero.dpr.skill.RewardSkill;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;
@@ -99,25 +100,37 @@ public class DPRSkills {
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114508"))
                 .setsKillTexture(ResourceLocation.withDefaultNamespace("textures/mob_effect/regeneration.png"))
                 .setPlayerPatchConsumer((playerPatch -> {
-                    playerPatch.getOriginal().setHealth(playerPatch.getOriginal().getHealth() + 2);
+                    if(!playerPatch.isLogicalClient()){
+                        Player player = playerPatch.getOriginal();
+                        player.heal(2);
+                    }
                 })));
         HEAL2 = registryWorker.build("heal2", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114509"))
                 .setsKillTexture(ResourceLocation.withDefaultNamespace("textures/mob_effect/regeneration.png"))
                 .setPlayerPatchConsumer((playerPatch -> {
-                    playerPatch.getOriginal().setHealth(playerPatch.getOriginal().getHealth() + 4);
+                    if(!playerPatch.isLogicalClient()){
+                        Player player = playerPatch.getOriginal();
+                        player.heal(4);
+                    }
                 })));
         HEAL3 = registryWorker.build("heal3", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114510"))
                 .setsKillTexture(ResourceLocation.withDefaultNamespace("textures/mob_effect/regeneration.png"))
                 .setPlayerPatchConsumer((playerPatch -> {
-                    playerPatch.getOriginal().setHealth(playerPatch.getOriginal().getHealth() + 6);
+                    if(!playerPatch.isLogicalClient()){
+                        Player player = playerPatch.getOriginal();
+                        player.heal(6);
+                    }
                 })));
         HEAL4 = registryWorker.build("heal4", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114511"))
                 .setsKillTexture(ResourceLocation.withDefaultNamespace("textures/mob_effect/regeneration.png"))
                 .setPlayerPatchConsumer((playerPatch -> {
-                    playerPatch.getOriginal().setHealth(playerPatch.getOriginal().getHealth() + 8);
+                    if(!playerPatch.isLogicalClient()){
+                        Player player = playerPatch.getOriginal();
+                        player.heal(8);
+                    }
                 })));
         RESIST1 = registryWorker.build("resist1", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114512"))

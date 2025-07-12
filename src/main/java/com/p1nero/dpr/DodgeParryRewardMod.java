@@ -1,5 +1,6 @@
 package com.p1nero.dpr;
 
+import com.p1nero.dpr.gameassets.DPRDatakeys;
 import com.p1nero.dpr.mob_effect.DPRMobEffects;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -13,6 +14,7 @@ public class DodgeParryRewardMod {
     public DodgeParryRewardMod(FMLJavaModLoadingContext context) {
         IEventBus eventBus = context.getModEventBus();
         DPRMobEffects.REGISTRY.register(eventBus);
+        DPRDatakeys.DATA_KEYS.register(eventBus);
     }
 
 }
