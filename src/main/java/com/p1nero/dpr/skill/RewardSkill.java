@@ -69,7 +69,7 @@ public abstract class RewardSkill extends Skill {
         int delayTimer = container.getDataManager().getDataValue(DPRDatakeys.DELAY_TIMER.get());
         if(delayTimer > 0) {
             if(!container.getExecutor().isLogicalClient()) {
-                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delayTimer - 1, container.getServerExecutor().getOriginal());
+                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delayTimer - 1);
             }
             if (delayTimer == 1 && playerPatchConsumer != null) {
                 playerPatchConsumer.accept(container.getExecutor());
@@ -81,7 +81,7 @@ public abstract class RewardSkill extends Skill {
         Player player = container.getExecutor().getOriginal();
         if(delay > 0) {
             if(player instanceof ServerPlayer serverPlayer) {
-                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delay, serverPlayer);
+                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delay);
             }
         } else {
             if (playerPatchConsumer != null) {

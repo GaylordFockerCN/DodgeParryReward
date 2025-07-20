@@ -1,7 +1,6 @@
 package com.p1nero.dpr.gameassets;
 
 import com.p1nero.dpr.DodgeParryRewardMod;
-import com.p1nero.dpr.mixin.PlayerPatchAccessor;
 import com.p1nero.dpr.mob_effect.DPRMobEffects;
 import com.p1nero.dpr.skill.ParryAndDodgeRewardSkill;
 import com.p1nero.dpr.skill.RewardSkill;
@@ -215,22 +214,22 @@ public class DPRSkills {
         STAMINA1 = registryWorker.build("stamina1", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                         .setsKillTexture(ResourceLocation.fromNamespaceAndPath(DodgeParryRewardMod.MOD_ID, "textures/mob_effect/stamina_boost.png"))
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114528"))
-                .setPlayerPatchConsumer(playerPatch -> ((PlayerPatchAccessor)playerPatch).setTickSinceLastAction(1145)));
+                .setPlayerPatchConsumer(playerPatch -> playerPatch.setStaminaRegenAwaitTicks(0)));
         STAMINA2 = registryWorker.build("stamina2", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114529"))
-                .setPlayerPatchConsumer(playerPatch -> ((PlayerPatchAccessor)playerPatch).setTickSinceLastAction(1145))
+                .setPlayerPatchConsumer(playerPatch -> playerPatch.setStaminaRegenAwaitTicks(0))
                 .setMobEffectSupplier(DPRMobEffects.STAMINA_BOOST)
                 .setEffectAmplifier(0)
                 .setEffectDuration(200));
         STAMINA3 = registryWorker.build("stamina3", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114530"))
-                .setPlayerPatchConsumer(playerPatch -> ((PlayerPatchAccessor)playerPatch).setTickSinceLastAction(1145))
+                .setPlayerPatchConsumer(playerPatch -> playerPatch.setStaminaRegenAwaitTicks(0))
                 .setMobEffectSupplier(DPRMobEffects.STAMINA_BOOST)
                 .setEffectAmplifier(1)
                 .setEffectDuration(200));
         STAMINA4 = registryWorker.build("stamina4", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114531"))
-                .setPlayerPatchConsumer(playerPatch -> ((PlayerPatchAccessor)playerPatch).setTickSinceLastAction(1145))
+                .setPlayerPatchConsumer(playerPatch -> playerPatch.setStaminaRegenAwaitTicks(0))
                 .setMobEffectSupplier(DPRMobEffects.STAMINA_BOOST)
                 .setEffectAmplifier(2)
                 .setEffectDuration(400));

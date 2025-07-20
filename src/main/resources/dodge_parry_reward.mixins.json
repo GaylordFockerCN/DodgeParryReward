@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "dodge_parry_reward.refmap.json",
   "mixins": [
-    "MobEffectInstanceAccessor",
-    "PlayerPatchAccessor"
+    "MobEffectInstanceAccessor"
   ],
   "client": [
   ],
