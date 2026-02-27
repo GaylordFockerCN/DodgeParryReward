@@ -32,6 +32,7 @@ public abstract class RewardSkill extends Skill {
     protected boolean ambient;
     protected boolean visible;
     protected boolean showIcon = true;
+    protected MobEffect cache;
 
     @Nullable
     protected Supplier<MobEffect> mobEffectSupplier;
@@ -74,6 +75,14 @@ public abstract class RewardSkill extends Skill {
         }
         if (parameters.contains("showIcon")) {
             showIcon = parameters.getBoolean("showIcon");
+        }
+        if(parameters.contains("effect_override")) {
+            mobEffectSupplier = () -> {
+                if(cache == null) {
+                    cache = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(parameters.getString("effect_override")));
+                }
+                return cache;
+            };
         }
     }
 

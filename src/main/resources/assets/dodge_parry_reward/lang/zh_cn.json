@@ -63,11 +63,11 @@
   "skill.dodge_parry_reward.speed4.tooltip": "完美闪避或完美招架后获得 [%d] 级 [%s]， 持续 [%d] tick.",
 
   "skill.dodge_parry_reward.stamina1": "耐力提升1",
-  "skill.dodge_parry_reward.stamina1.tooltip": "完美闪避或完美招架后立即恢复1耐力。",
+  "skill.dodge_parry_reward.stamina1.tooltip": "完美闪避或完美招架后立即恢复3耐力。",
   "skill.dodge_parry_reward.stamina2": "耐力提升2",
-  "skill.dodge_parry_reward.stamina2.tooltip": "完美闪避或完美招架后立即恢复1耐力，获得 [%d] 级 [%s]， 持续 [%d] tick.",
+  "skill.dodge_parry_reward.stamina2.tooltip": "完美闪避或完美招架后立即恢复3耐力，获得 [%d] 级 [%s]， 持续 [%d] tick.",
   "skill.dodge_parry_reward.stamina3": "耐力提升3",
-  "skill.dodge_parry_reward.stamina3.tooltip": "完美闪避或完美招架后立即恢复2耐力，获得 [%d] 级 [%s]， 持续 [%d] tick.",
+  "skill.dodge_parry_reward.stamina3.tooltip": "完美闪避或完美招架后立即恢复3耐力，获得 [%d] 级 [%s]， 持续 [%d] tick.",
   "skill.dodge_parry_reward.stamina4": "耐力提升4",
   "skill.dodge_parry_reward.stamina4.tooltip": "完美闪避或完美招架后立即恢复3耐力，获得 [%d] 级 [%s]， 持续 [%d] tick.",
 

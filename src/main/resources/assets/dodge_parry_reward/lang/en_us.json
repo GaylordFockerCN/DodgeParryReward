@@ -63,11 +63,11 @@
   "skill.dodge_parry_reward.speed4.tooltip": "Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
 
   "skill.dodge_parry_reward.stamina1": "Stamina Boost I",
-  "skill.dodge_parry_reward.stamina1.tooltip": "Triggers immediate recover 1 stamina after a perfect dodge or perfect parry.",
+  "skill.dodge_parry_reward.stamina1.tooltip": "Triggers immediate recover 2 stamina after a perfect dodge or perfect parry.",
   "skill.dodge_parry_reward.stamina2": "Stamina Boost II",
-  "skill.dodge_parry_reward.stamina2.tooltip": "Triggers immediate recover 1 stamina and Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
+  "skill.dodge_parry_reward.stamina2.tooltip": "Triggers immediate recover 2 stamina and Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
   "skill.dodge_parry_reward.stamina3": "Stamina Boost III",
-  "skill.dodge_parry_reward.stamina3.tooltip": "Triggers immediate recover 2 stamina and Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
+  "skill.dodge_parry_reward.stamina3.tooltip": "Triggers immediate recover 3 stamina and Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
   "skill.dodge_parry_reward.stamina4": "Stamina Boost IV",
   "skill.dodge_parry_reward.stamina4.tooltip": "Triggers immediate recover 3 stamina and Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",
 

@@ -7,7 +7,6 @@ import com.p1nero.dpr.skill.ParryAndDodgeRewardSkill;
 import com.p1nero.dpr.skill.RewardSkill;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import yesman.epicfight.api.forgeevent.SkillBuildEvent;
@@ -195,16 +194,16 @@ public class DPRSkills {
         STAMINA1 = registryWorker.build("stamina1", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                         .setsKillTexture(ResourceLocation.fromNamespaceAndPath(DodgeParryRewardMod.MOD_ID, "textures/mob_effect/stamina_boost.png"))
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114528"))
-                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 1), 2));
+                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 2), 2));
         STAMINA2 = registryWorker.build("stamina2", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114529"))
-                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 1), 2)
+                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 2), 2)
                 .setMobEffectSupplier(DPRMobEffects.STAMINA_BOOST)
                 .setEffectAmplifier(0)
                 .setEffectDuration(200));
         STAMINA3 = registryWorker.build("stamina3", ParryAndDodgeRewardSkill::new, RewardSkill.createParryRewardSkill()
                 .setUuid(UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114530"))
-                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 2), 2)
+                .setWhenExecute(playerPatch -> playerPatch.setStamina(playerPatch.getStamina() + 3), 2)
                 .setMobEffectSupplier(DPRMobEffects.STAMINA_BOOST)
                 .setEffectAmplifier(1)
                 .setEffectDuration(200));
