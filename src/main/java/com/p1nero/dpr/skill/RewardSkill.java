@@ -130,11 +130,16 @@ public abstract class RewardSkill extends Skill {
     @Override
     public ResourceLocation getSkillTexture() {
         if (mobEffectSupplier != null) {
-            if (effectTexture != null) {
-                return ResourceLocation.fromNamespaceAndPath(effectTexture.getNamespace(), "textures/mob_effect/" + effectTexture.getPath() + ".png");
+            if (effectTexture == null) {
+                MobEffect mobEffect = mobEffectSupplier.get();
+                ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(mobEffect);
+                if(effectId != null) {
+                    effectTexture = ResourceLocation.fromNamespaceAndPath(effectId.getNamespace(), "textures/mob_effect/" + effectId.getPath() + ".png");
+                    return effectTexture;
+                }
+            } else {
+                return effectTexture;
             }
-            MobEffect mobEffect = mobEffectSupplier.get();
-            effectTexture = ForgeRegistries.MOB_EFFECTS.getKey(mobEffect);
         }
         if (sKillTexture != null) {
             return sKillTexture;
