@@ -1,12 +1,12 @@
 {
   "skill.dodge_parry_reward.heal1": "Instant Heal I",
-  "skill.dodge_parry_reward.heal1.tooltip": "Instantly restores 2 HP after a perfect dodge or perfect parry",
+  "skill.dodge_parry_reward.heal1.tooltip": "Instantly restores %d HP after a perfect dodge or perfect parry",
   "skill.dodge_parry_reward.heal2": "Instant Heal II",
-  "skill.dodge_parry_reward.heal2.tooltip": "Instantly restores 4 HP after a perfect dodge or perfect parry",
+  "skill.dodge_parry_reward.heal2.tooltip": "Instantly restores %d HP after a perfect dodge or perfect parry",
   "skill.dodge_parry_reward.heal3": "Instant Heal III",
-  "skill.dodge_parry_reward.heal3.tooltip": "Instantly restores 6 HP after a perfect dodge or perfect parry",
+  "skill.dodge_parry_reward.heal3.tooltip": "Instantly restores %d HP after a perfect dodge or perfect parry",
   "skill.dodge_parry_reward.heal4": "Instant Heal IV",
-  "skill.dodge_parry_reward.heal4.tooltip": "Instantly restores 8 HP after a perfect dodge or perfect parry",
+  "skill.dodge_parry_reward.heal4.tooltip": "Instantly restores %d HP after a perfect dodge or perfect parry",
 
   "skill.dodge_parry_reward.health_boost1": "Health Boost I",
   "skill.dodge_parry_reward.health_boost1.tooltip": "Grants [%d] level(s) of [%s] for [%d] tick(s) after a perfect dodge or perfect parry.",

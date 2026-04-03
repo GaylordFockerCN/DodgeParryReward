@@ -3,6 +3,8 @@ package com.p1nero.dpr.skill;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.List;
+
 public class HealSkill extends ParryAndDodgeRewardSkill{
     protected double healCount;
     public HealSkill(Builder builder) {
@@ -23,4 +25,9 @@ public class HealSkill extends ParryAndDodgeRewardSkill{
         }
     }
 
+    @Override
+    public List<Object> getTooltipArgsOfScreen(List<Object> list) {
+        list.add(healCount);
+        return list;
+    }
 }

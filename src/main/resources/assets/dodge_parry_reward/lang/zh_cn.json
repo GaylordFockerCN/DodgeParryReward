@@ -1,12 +1,12 @@
 {
   "skill.dodge_parry_reward.heal1": "瞬间治疗1",
-  "skill.dodge_parry_reward.heal1.tooltip": "完美闪避或完美招架后立即回复2点生命值",
+  "skill.dodge_parry_reward.heal1.tooltip": "完美闪避或完美招架后立即回复%d点生命值",
   "skill.dodge_parry_reward.heal2": "瞬间治疗2",
-  "skill.dodge_parry_reward.heal2.tooltip": "完美闪避或完美招架后立即回复4点生命值",
+  "skill.dodge_parry_reward.heal2.tooltip": "完美闪避或完美招架后立即回复%d点生命值",
   "skill.dodge_parry_reward.heal3": "瞬间治疗3",
-  "skill.dodge_parry_reward.heal3.tooltip": "完美闪避或完美招架后立即回复6点生命值",
+  "skill.dodge_parry_reward.heal3.tooltip": "完美闪避或完美招架后立即回复%d点生命值",
   "skill.dodge_parry_reward.heal4": "瞬间治疗4",
-  "skill.dodge_parry_reward.heal4.tooltip": "完美闪避或完美招架后立即回复8点生命值",
+  "skill.dodge_parry_reward.heal4.tooltip": "完美闪避或完美招架后立即回复%d点生命值",
 
   "skill.dodge_parry_reward.health_boost1": "生命提升1",
   "skill.dodge_parry_reward.health_boost1.tooltip": "完美闪避或完美招架后获得 [%d] 级 [%s]， 持续 [%d] tick.",
