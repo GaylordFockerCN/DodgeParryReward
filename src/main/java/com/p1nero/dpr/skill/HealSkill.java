@@ -5,8 +5,9 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public class HealSkill extends ParryAndDodgeRewardSkill{
+public class HealSkill extends ParryAndDodgeRewardSkill {
     protected double healCount;
+
     public HealSkill(Builder builder) {
         super(builder);
         playerPatchConsumer = playerPatch -> {
@@ -18,8 +19,8 @@ public class HealSkill extends ParryAndDodgeRewardSkill{
     }
 
     @Override
-    public void setParams(CompoundTag parameters) {
-        super.setParams(parameters);
+    public void loadDatapackParameters(CompoundTag parameters) {
+        super.loadDatapackParameters(parameters);
         if (parameters.contains("heal_count")) {
             healCount = parameters.getDouble("heal_count");
         }
