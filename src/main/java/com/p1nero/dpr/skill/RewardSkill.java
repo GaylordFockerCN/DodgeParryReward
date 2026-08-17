@@ -2,27 +2,29 @@ package com.p1nero.dpr.skill;
 
 import com.p1nero.dpr.gameassets.DPRDatakeys;
 import com.p1nero.dpr.mixin.MobEffectInstanceAccessor;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.api.utils.side.ClientOnly;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillBuilder;
 import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class RewardSkill extends Skill {
@@ -32,19 +34,19 @@ public abstract class RewardSkill extends Skill {
     protected boolean ambient;
     protected boolean visible;
     protected boolean showIcon = true;
-    protected MobEffect cache;
+    @Nullable
+    protected Holder<MobEffect> effectOverrideCache;
 
     @Nullable
-    protected Supplier<MobEffect> mobEffectSupplier;
+    protected Supplier<Holder<MobEffect>> mobEffectSupplier;
     protected int delay;
     @Nullable
     protected Consumer<PlayerPatch<?>> playerPatchConsumer;
-    protected final UUID eventUuid;
     protected final ResourceLocation sKillTexture;
     protected ResourceLocation effectTexture;
 
-    public static Builder createParryRewardSkill() {
-        return new Builder().setCategory(SkillCategories.PASSIVE).setResource(Resource.NONE);
+    public static Builder createParryRewardSkill(Function<Builder, ? extends RewardSkill> constructor) {
+        return new Builder(constructor).setCategory(SkillCategories.PASSIVE).setResource(Resource.NONE);
     }
 
     public RewardSkill(Builder builder) {
@@ -55,12 +57,11 @@ public abstract class RewardSkill extends Skill {
         delay = builder.delay;
         playerPatchConsumer = builder.playerPatchConsumer;
         sKillTexture = builder.sKillTexture;
-        eventUuid = builder.uuid;
     }
 
     @Override
-    public void setParams(CompoundTag parameters) {
-        super.setParams(parameters);
+    public void loadDatapackParameters(CompoundTag parameters) {
+        super.loadDatapackParameters(parameters);
         if (parameters.contains("duration")) {
             duration = parameters.getInt("duration");
         }
@@ -78,10 +79,11 @@ public abstract class RewardSkill extends Skill {
         }
         if(parameters.contains("effect_override")) {
             mobEffectSupplier = () -> {
-                if(cache == null) {
-                    cache = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(parameters.getString("effect_override")));
+                if(effectOverrideCache == null) {
+                    ResourceLocation id = ResourceLocation.parse(parameters.getString("effect_override"));
+                    effectOverrideCache = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceKey.create(Registries.MOB_EFFECT, id)).orElseThrow();
                 }
-                return cache;
+                return effectOverrideCache;
             };
         }
     }
@@ -89,10 +91,10 @@ public abstract class RewardSkill extends Skill {
     @Override
     public void updateContainer(SkillContainer container) {
         super.updateContainer(container);
-        int delayTimer = container.getDataManager().getDataValue(DPRDatakeys.DELAY_TIMER.get());
+        int delayTimer = container.getDataManager().getDataValue(DPRDatakeys.DELAY_TIMER);
         if(delayTimer > 0) {
             if(!container.getExecutor().isLogicalClient()) {
-                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delayTimer - 1);
+                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER, delayTimer - 1);
             }
             if (delayTimer == 1 && playerPatchConsumer != null) {
                 playerPatchConsumer.accept(container.getExecutor());
@@ -104,7 +106,7 @@ public abstract class RewardSkill extends Skill {
         Player player = container.getExecutor().getOriginal();
         if(delay > 0) {
             if(player instanceof ServerPlayer) {
-                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER.get(), delay);
+                container.getDataManager().setDataSync(DPRDatakeys.DELAY_TIMER, delay);
             }
         } else {
             if (playerPatchConsumer != null) {
@@ -112,11 +114,13 @@ public abstract class RewardSkill extends Skill {
             }
         }
         if (mobEffectSupplier != null && player instanceof ServerPlayer serverPlayer) {
-            MobEffect mobEffect = mobEffectSupplier.get();
+            Holder<MobEffect> mobEffect = mobEffectSupplier.get();
             MobEffectInstance instance = player.getEffect(mobEffect);
             if(instance != null) {
                 ((MobEffectInstanceAccessor) instance).setDuration(duration);
-                serverPlayer.connection.send(new ClientboundUpdateMobEffectPacket(serverPlayer.getId(), instance));
+                // 3rd arg is the 1.21+ "blend" flag (smooth visual transition between effect
+                // states) - false matches the old 1.20.1 behavior, which predates blending.
+                serverPlayer.connection.send(new ClientboundUpdateMobEffectPacket(serverPlayer.getId(), instance, false));
             }
             player.addEffect(new MobEffectInstance(mobEffect, duration, amplifier, ambient, visible, showIcon));
 
@@ -126,13 +130,13 @@ public abstract class RewardSkill extends Skill {
     /**
      * 有效果直接读效果贴图
      */
-    @OnlyIn(Dist.CLIENT)
+    @ClientOnly
     @Override
     public ResourceLocation getSkillTexture() {
         if (mobEffectSupplier != null) {
             if (effectTexture == null) {
-                MobEffect mobEffect = mobEffectSupplier.get();
-                ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(mobEffect);
+                Holder<MobEffect> mobEffect = mobEffectSupplier.get();
+                ResourceLocation effectId = BuiltInRegistries.MOB_EFFECT.getKey(mobEffect.value());
                 if(effectId != null) {
                     effectTexture = ResourceLocation.fromNamespaceAndPath(effectId.getNamespace(), "textures/mob_effect/" + effectId.getPath() + ".png");
                     return effectTexture;
@@ -147,25 +151,29 @@ public abstract class RewardSkill extends Skill {
         return super.getSkillTexture();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @ClientOnly
     @Override
     public List<Object> getTooltipArgsOfScreen(List<Object> list) {
         list.add(amplifier);
         if (mobEffectSupplier != null) {
-            list.add(mobEffectSupplier.get().getDisplayName().copy().withStyle(Style.EMPTY.withColor(mobEffectSupplier.get().getColor()).withBold(true)));
+            MobEffect mobEffect = mobEffectSupplier.get().value();
+            list.add(mobEffect.getDisplayName().copy().withStyle(Style.EMPTY.withColor(mobEffect.getColor()).withBold(true)));
         }
         list.add(duration);
         return list;
     }
 
-    public static class Builder extends SkillBuilder<RewardSkill> {
+    public static class Builder extends SkillBuilder<Builder> {
         private int effectDuration;
         protected int effectAmplifier;
-        private Supplier<MobEffect> mobEffectSupplier;
+        private Supplier<Holder<MobEffect>> mobEffectSupplier;
         private int delay;
         private Consumer<PlayerPatch<?>> playerPatchConsumer;
-        private UUID uuid = UUID.fromString("fdc09ee8-fcfc-19eb-9a03-0242ac114514");
         protected ResourceLocation sKillTexture;
+
+        public Builder(Function<Builder, ? extends RewardSkill> constructor) {
+            super(constructor);
+        }
 
         public Builder setEffectDuration(int effectDuration) {
             this.effectDuration = effectDuration;
@@ -182,7 +190,7 @@ public abstract class RewardSkill extends Skill {
             return this;
         }
 
-        public Builder setMobEffectSupplier(Supplier<MobEffect> mobEffectSupplier) {
+        public Builder setMobEffectSupplier(Supplier<Holder<MobEffect>> mobEffectSupplier) {
             this.mobEffectSupplier = mobEffectSupplier;
             return this;
         }
@@ -195,11 +203,6 @@ public abstract class RewardSkill extends Skill {
         public Builder setWhenExecute(Consumer<PlayerPatch<?>> playerPatchConsumer, int delay) {
             this.playerPatchConsumer = playerPatchConsumer;
             this.delay = delay;
-            return this;
-        }
-
-        public Builder setUuid(UUID uuid) {
-            this.uuid = uuid;
             return this;
         }
     }
